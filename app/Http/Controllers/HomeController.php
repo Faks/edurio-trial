@@ -1,48 +1,91 @@
 <?php
 
 declare(strict_types=1);
-/**
- * Created by PhpStorm.
- * User: Faks
- * GitHub: https://github.com/Faks
- *******************************************
- * Company Name: Solum DeSignum
- * Company Website: http://solum-designum.com
- * Company GitHub: https://github.com/SolumDeSignum
- ********************************************************
- * Date: 2019.06.18.
- * Time: 14:10
- */
 
 namespace App\Http\Controllers;
 
 use App\Source;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use function collect;
+use const PHP_EOL;
+use SplFixedArray;
 
-/**
- * Class HomeController
- *
- * @package App\Http\Controllers
- */
 class HomeController
 {
     /**
+     * Set maximum range for array
      *
+     * @var int
      */
-    public function show(): void
+    private $setRange = 1000000;
+    
+    /**
+     * Set how big sub array chunks are
+     *
+     * @var int
+     */
+    private $setChunkStep = 50;
+    
+    /**
+     * Set CSV Header
+     *
+     * @var array
+     */
+    private static $getCsvHeader = [
+        'a', 'b', 'c',
+    ];
+    
+    public function show() : void
     {
-        Source::get();
+        $getSource = Source::select(['a', 'b', 'c'])->get();
+        
+        $file = \fopen('php://output', 'w');
+        \fputcsv($file, self::$getCsvHeader, ';', PHP_EOL);
+        
+        foreach ($getSource as $source) {
+            \fputcsv($file, [$source->a, $source->b, $source->c], ';', PHP_EOL);
+        }
     }
     
-    public function store(Source $storeSource): void
+    public function store() : void
     {
-        $oneMilion = 1000000;
-        for ($i = 0; $i < $oneMilion;$i++)
-        {
-            $storeSource->a = '';
-            $storeSource->b = '';
-            $storeSource->c = '';
-            $storeSource->save();
+        foreach ($this->getMillionArrayChunk($this->setRange) as $getMillionArrayChunkDepthFirst) {
+            foreach ($getMillionArrayChunkDepthFirst as $getMillionArrayChunkDepthSecond) {
+                $storeSource    = new Source();
+                $storeSource->a = $getMillionArrayChunkDepthSecond;
+                $storeSource->b = $getMillionArrayChunkDepthSecond === 3 ? $getMillionArrayChunkDepthSecond : 0;
+                $storeSource->c = $getMillionArrayChunkDepthSecond === 5 ? $getMillionArrayChunkDepthSecond : 0;
+                $storeSource->save();
+            }
         }
+    }
+    
+    /**
+     * @param int $getOneMillion get amount
+     *
+     * @return SplFixedArray
+     */
+    private function getMillionArray($getOneMillion) : SplFixedArray
+    {
+        $getMillionArray = new SplFixedArray($getOneMillion);
+        
+        for ($i = 0; $i < $getOneMillion; ++$i) {
+            $getMillionArray[$i] = $i;
+        }
+        
+        return $getMillionArray;
+    }
+    
+    /**
+     * Breaking Down big array
+     *
+     * @param int $getOneMillion get amount
+     *
+     * @return array
+     */
+    private function getMillionArrayChunk($getOneMillion) : array
+    {
+        return collect($this->getMillionArray($getOneMillion))
+            ->chunk($this->setChunkStep)
+            ->toArray();
     }
 }

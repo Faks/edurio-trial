@@ -15,13 +15,16 @@ class Source extends Migration
      */
     public function up(): void
     {
-        Schema::create('source', function (Blueprint $table): void {
-            $table->string('id')->index();
-            $table->integer('a');
-            $table->integer('b');
-            $table->integer('c');
-            $table->timestamps();
-        });
+        Schema::create(
+            'source',
+            function (Blueprint $table): void {
+                $table->bigIncrements('id')->index();
+                $table->unsignedBigInteger('a')->index();
+                $table->unsignedBigInteger('b')->index();
+                $table->unsignedBigInteger('c')->index();
+                $table->timestamps();
+            }
+        );
     }
 
     /**

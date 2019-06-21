@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="71c9041e-e2ff-4d63-9a7a-e5bb574f034d" name="edurio-trial.solum-designum.com" url="http://edurio-trial.solum-designum.com/">
+        <fileTransfer host="82.193.93.167" port="22" rootFolder="/var/www/trial/edurio-trial.solum-designum.com" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
