@@ -52,8 +52,8 @@ class HomeController
             foreach ($getMillionArrayChunkDepthFirst as $getMillionArrayChunkDepthSecond) {
                 $storeSource    = new Source();
                 $storeSource->a = $getMillionArrayChunkDepthSecond;
-                $storeSource->b = $getMillionArrayChunkDepthSecond === 3 ? $getMillionArrayChunkDepthSecond : 0;
-                $storeSource->c = $getMillionArrayChunkDepthSecond === 5 ? $getMillionArrayChunkDepthSecond : 0;
+                $storeSource->b = $getMillionArrayChunkDepthSecond / 100 * 3;
+                $storeSource->c = $getMillionArrayChunkDepthSecond / 100 * 5;
                 $storeSource->save();
             }
         }
