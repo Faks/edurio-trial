@@ -17,7 +17,7 @@ class Source extends Migration
     {
         Schema::create(
             'source',
-             function (Blueprint $table): void {
+            function (Blueprint $table): void {
                 $table->bigIncrements('id')->index();
                 $table->unsignedBigInteger('a')->index();
                 $table->unsignedBigInteger('b')->index();

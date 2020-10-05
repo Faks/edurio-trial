@@ -18,14 +18,14 @@ class HomeController
      * @var int
      */
     private $setRange = 1000000;
-    
+
     /**
      * Set how big sub array chunks are
      *
      * @var int
      */
     private $setChunkStep = 50;
-    
+
     /**
      * Set CSV Header
      *
@@ -34,19 +34,19 @@ class HomeController
     private static $getCsvHeader = [
         'a', 'b', 'c',
     ];
-    
+
     public function show() : void
     {
         $getSource = Source::select(['a', 'b', 'c'])->get();
-        
+
         $file = \fopen('php://output', 'w');
         \fputcsv($file, self::$getCsvHeader, ';', PHP_EOL);
-        
+
         foreach ($getSource as $source) {
             \fputcsv($file, [$source->a, $source->b, $source->c], ';', PHP_EOL);
         }
     }
-    
+
     public function store() : void
     {
         foreach ($this->getMillionArrayChunk($this->setRange) as $getMillionArrayChunkDepthFirst) {
@@ -59,7 +59,7 @@ class HomeController
             }
         }
     }
-    
+
     /**
      * @param int $getOneMillion get amount
      *
@@ -68,14 +68,14 @@ class HomeController
     private function getMillionArray($getOneMillion) : SplFixedArray
     {
         $getMillionArray = new SplFixedArray($getOneMillion);
-        
+
         for ($i = 0; $i < $getOneMillion; ++$i) {
             $getMillionArray[$i] = $i;
         }
-        
+
         return $getMillionArray;
     }
-    
+
     /**
      * Breaking Down big array
      *
