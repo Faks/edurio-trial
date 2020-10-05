@@ -58,14 +58,13 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
-            'strict'    => env('DB_STRICT', 'true'),
-            'sslmode'   => env('MYSQL_SSL_MODE', ''),
-            'options'   => extension_loaded('pdo_mysql') ? [
-                PDO::MYSQL_ATTR_SSL_KEY                => env('MYSQL_ATTR_SSL_KEY', ''),
-                PDO::MYSQL_ATTR_SSL_CERT               => env('MYSQL_ATTR_SSL_CERT', ''),
-                PDO::MYSQL_ATTR_SSL_CA                 => env('MYSQL_ATTR_SSL_CA', ''),
-                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => env('MYSQL_ATTR_SSL_VERIFY_SERVER_CERT', ''),
-            ] : [],
+            'strict' => env('DB_STRICT', 'true'),
+            'sslmode' => env('MYSQL_SSL_MODE', ''),
+            'options' => extension_loaded('pdo_mysql') ? array_filter(
+                [
+                    PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                ]
+            ) : [],
         ],
 
         'pgsql' => [
@@ -128,7 +127,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'predis'),
-            'prefix' => Str::slug(env('APP_NAME', 'laravel'), '_').'_database_',
+            'prefix' => Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_',
         ],
 
         'default' => [
