@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\EdurioController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,5 +16,5 @@ declare(strict_types=1);
 |
 */
 
-Route::get('/', 'HomeController@show');
-Route::get('store', 'HomeController@store');
+Route::get('/', [EdurioController::class, 'show']);
+Route::get('store', [EdurioController::class, 'store']);
